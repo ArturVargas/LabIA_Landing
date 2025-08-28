@@ -1,26 +1,193 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Updated color tokens to match dramatic lighting design brief */
+  --background: #000000; /* Pure black background */
+  --foreground: oklch(1 0 0); /* Pure white for text and highlights */
+  --card: oklch(0.95 0 0); /* Light gray for subtle backgrounds */
+  --card-foreground: oklch(0 0 0); /* Black text on light cards */
+  --popover: oklch(1 0 0); /* White for popover backgrounds */
+  --popover-foreground: oklch(0 0 0); /* Black text in popovers */
+  --primary: oklch(0.65 0.2 270); /* Violet accent for highlights */
+  --primary-foreground: oklch(1 0 0); /* White text on violet */
+  --secondary: oklch(0.95 0 0); /* Light gray for secondary elements */
+  --secondary-foreground: oklch(0 0 0); /* Black text on secondary */
+  --muted: oklch(0.25 0 0); /* Dark gray for muted elements */
+  --muted-foreground: oklch(0.95 0 0); /* Light gray text for muted */
+  --accent: oklch(0.65 0.2 270); /* Violet for interactive elements */
+  --accent-foreground: oklch(1 0 0); /* White text on accent */
+  --destructive: oklch(0.6 0.2 40); /* Amber for destructive actions */
+  --destructive-foreground: oklch(1 0 0); /* White text for destructive */
+  --border: oklch(1 0 0); /* White borders for contrast */
+  --input: oklch(0.95 0 0); /* Light gray for inputs */
+  --ring: oklch(0.65 0.2 270); /* Violet for focus rings */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.5rem; /* Softer rounded corners */
+  --sidebar: oklch(0 0 0); /* Black sidebar */
+  --sidebar-foreground: oklch(1 0 0); /* White sidebar text */
+  --sidebar-primary: oklch(0.65 0 0); /* Violet for primary sidebar */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White text on sidebar primary */
+  --sidebar-accent: oklch(0.95 0 0); /* Light gray for sidebar accent */
+  --sidebar-accent-foreground: oklch(0 0 0); /* Black text on sidebar accent */
+  --sidebar-border: oklch(1 0 0); /* White sidebar borders */
+  --sidebar-ring: oklch(0.65 0.2 270); /* Violet for sidebar focus */
+  --font-instrument-serif: "Instrument Serif", serif; /* Instrument Serif font family configuration */
+  /* Added Figtree as the primary font variable */
+  --font-figtree: "Figtree", sans-serif; /* Figtree font family configuration */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* Dark mode maintains the same dramatic black background theme */
+  --background: #000000;
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.1 0 0);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.1 0 0);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(0.7 0.25 270);
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.7 0.25 270);
+  --accent-foreground: oklch(0 0 0);
+  --destructive: oklch(0.5 0.2 40);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.3 0 0);
+  --input: oklch(0.15 0 0);
+  --ring: oklch(0.7 0.25 270);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.05 0 0);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.7 0.25 270);
+  --sidebar-primary-foreground: oklch(0 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.3 0 0);
+  --sidebar-ring: oklch(0.7 0.25 270);
+  --font-instrument-serif: "Instrument Serif", serif; /* Instrument Serif font family configuration */
+  /* Added Figtree font variable for dark mode consistency */
+  --font-figtree: "Figtree", sans-serif; /* Figtree font family configuration */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Set Figtree as the default font family for the entire website */
+    font-family: var(--font-figtree);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.instrument {
+  font-family: var(--font-instrument-serif);
+}
+
+@layer utilities {
+  .gradient-brand {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Focus states for accessibility */
+.focus-visible\:ring-2:focus-visible {
+  @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+}
+
+.bg-noise {
+  background-image: radial-gradient(#ffffff0d 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: .08;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+}
+
+/* —— Visual helpers for shader + glass —— */
+@layer utilities {
+  /* Texto con brillo blanco-violeta (para el H1) */
+  .text-gradient-white {
+    background: linear-gradient(135deg,#ffffff 0%,#eae6ff 35%,#d3c8ff 55%,#ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+  }
+
+  /* Contenedor glass (blur, borde sutil y glow violeta) */
+  .glass {
+    backdrop-filter: blur(12px);
+    background: color-mix(in oklch, white 6%, transparent);
+    border: 1px solid color-mix(in oklch, white 18%, transparent);
+    box-shadow:
+      inset 0 0 1px rgba(255,255,255,.9),
+      0 24px 80px color-mix(in oklch, var(--primary) 28%, transparent);
+  }
+
+  /* Viñeta para enfocar el hero */
+  .vignette {
+    background:
+      radial-gradient(120% 120% at 50% 40%,
+        transparent 0%, transparent 56%,
+        rgba(0,0,0,.45) 80%, rgba(0,0,0,.75) 100%);
+  }
+
+  /* Bloom violeta (usar como overlay) */
+  .bloom {
+    filter: blur(36px);
+    opacity: .32;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(60% 60% at 28% 18%, color-mix(in oklch,var(--primary) 40%, transparent) 0%, transparent 60%),
+      radial-gradient(40% 40% at 74% 34%, color-mix(in oklch,var(--accent) 35%, transparent) 0%, transparent 70%);
+  }
+
+  /* Grano con imagen (mejor que el pattern procedural) */
+  .bg-noise-img {
+    background-image: url('/noise.png');
+    mix-blend-mode: soft-light;
+    opacity: .15;
+  }
 }
