@@ -1,7 +1,7 @@
 
 import * as React from "react"
 import {
-  Section, Text, Button, Hr, Img
+  Section, Text, Button, Hr
 } from "@react-email/components"
 import EmailLayout from "./EmailLayout"
 
@@ -12,8 +12,6 @@ type Props = {
 }
 
 export default function WaitlistWelcome({
-  name = "Usuario",
-  email,
   language = "es"
 }: Props) {
   const copy = {

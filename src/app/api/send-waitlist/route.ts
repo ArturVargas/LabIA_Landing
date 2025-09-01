@@ -12,19 +12,15 @@ export async function POST(req: NextRequest) {
     // Optional: Save to your database (e.g., Prisma, Supabase) for waitlist management
     // await db.waitlist.create({ data: { email, firstName } });
 
-    const { data, error } = await resend.emails.send({
+    const { data } = await resend.emails.send({
       from: 'Your App <waitlist@yourdomain.com>', // Use your verified domain
       to: [email],
-      subject: 'You’re on the Waitlist – Get Ready to Spark Chemistry!',
+      subject: 'You\'re on the Waitlist – Get Ready to Spark Chemistry!',
       react: WaitlistWelcome({ name: firstName, email, language: 'en' }),
     });
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 });
-    }
-
     return NextResponse.json(data);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

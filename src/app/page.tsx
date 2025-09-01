@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react";
 import {
-  Heart,
   MessageCircle,
   Zap,
   Target,
   BookOpen,
   Trophy,
   Users,
-  Star,
   ChevronDown,
   Globe,
   Menu,
@@ -17,7 +15,7 @@ import {
 } from "lucide-react";
 import ShaderBackground from "@/components/shader-background";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -27,15 +25,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CTAButton } from "@/components/cta-button";
-import { FeatureCard } from "@/components/feature-card";
-import { TestimonialCard } from "@/components/testimonials";
 import { Logo } from "@/components/logo";
 import { Section } from "@/components/Section";
 import { COPY } from "@/lib/copy";
 import { trackClick } from "@/lib/analytics";
 import { Spotlight } from "@/components/spotlight";
-import { Glass } from "@/components/glass";
 import Waitlist from "@/components/waitlist";
+import { LanguageProvider } from "@/components/language-provider";
 
 /*
 Visual Tone Analysis from COPY:
@@ -49,14 +45,25 @@ Visual Tone Analysis from COPY:
 
 type Language = "es" | "en";
 
+interface PricingPlan {
+  name: string;
+  price: string;
+  description: string;
+  highlight?: boolean;
+}
+
+interface FAQItem {
+  q: string;
+  a: string;
+}
+
 export default function LandingPage() {
   const [language, setLanguage] = useState<Language>("es");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // A/B Testing variants
-  const [ctaVariant, setCTAVariant] = useState<"primary" | "accent">("primary");
-  const [heroVariant, setHeroVariant] = useState<"A" | "B">("A");
-  const [socialProofPlacement, setSocialProofPlacement] = useState<
+  const [ctaVariant] = useState<"primary" | "accent">("primary");
+  const [socialProofPlacement] = useState<
     "above" | "below"
   >("below");
 
@@ -90,8 +97,9 @@ export default function LandingPage() {
   };
 
   return (
-    <ShaderBackground>
-      <Spotlight />
+    <LanguageProvider language={language}>
+      <ShaderBackground>
+        <Spotlight />
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
@@ -363,7 +371,7 @@ export default function LandingPage() {
 
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               {Object.entries(copy.pricing.plans).map(
-                ([key, plan]: [string, any], index: number) => (
+                ([key, plan]: [string, PricingPlan]) => (
                   <Card
                     key={key}
                     className={`relative ${
@@ -387,7 +395,7 @@ export default function LandingPage() {
                         {plan.price}
                       </p>
                       <p className="text-sm text-muted-foreground mb-6">
-                        {plan.note}
+                        {plan.description}
                       </p>
                       <CTAButton
                         variant={plan.highlight ? ctaVariant : "outline"}
@@ -459,7 +467,7 @@ export default function LandingPage() {
             </h2>
 
             <Accordion type="single" collapsible className="space-y-4">
-              {copy.faq.map((item: any, index: number) => (
+              {copy.faq.map((item: FAQItem, index: number) => (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
@@ -557,7 +565,8 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-    </ShaderBackground>
+      </ShaderBackground>
+    </LanguageProvider>
   );
 }
 
